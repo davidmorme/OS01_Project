@@ -36,16 +36,32 @@ vector <vector<double>> load(){
 }
 
 bool same(vector<vector<double>> P,vector<vector<double>> Q){
-	for(int i = 1; i<P[0].size();i++){
-		if (P[i,0]!=Q[i,0] or P[i,1]!=Q[i,1] ){
-			cout << "The two polygons are different" << endl;
-			return false;
+	int n=P[0].size()-1;
+	
+	for(int j=0; j<n-1;j++){
+		bool S = true;
+		for(int i = 0; i<n;i++){
+			if(i+j<n){
+				if (P[0][i]!=Q[0][i+j] or P[1][i]!=Q[1][i+j] ){
+					S=false;
+					break;
+				}
+			}else{
+				if (P[0][i]!=Q[0][i+j-n] or P[1][i]!=Q[1][i+j-n] ){
+					S=false;
+					break;
+				}
+			}
+		}
+		if(S){
+			cout << "The two polygons are the same" << endl;
+			return true;
 		}
 	}
-	cout << "The two polygons are the same" << endl;
-	return true; 
-		
+	cout << "The two polygons are different" << endl;
+	return false;		
 }
+
 vector<vector<double>> clean(vector<vector<double>> P){
 		//secondToLast = myVector[myVector.size() - 2];
 		vector<double> m(P[0].size()-1);
@@ -83,17 +99,15 @@ int main() {
 	P = load();
 	cout << "Original polygon loaded" << endl;
 	print(P);
-	
+	vector <vector<double>> Q=P;
 	P=clean(P);
 	cout << "Polygon after cleaning" << endl;
 	print(P);
-	vector <vector<double>> Q=P;
-	Q[0][0]=9;
+	
+	//Q[0][0]=9;
 	cout << "Polygon for comparing" << endl;
 	print(Q);
 	same(P,Q);
-	
-	
 	/*
 	for(int j = 0; j < X.size(); j++){
 		cout << "P" << j << "= (" << X[j] << " , " << Y[j] << ")" << endl;
