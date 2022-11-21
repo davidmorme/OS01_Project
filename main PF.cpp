@@ -9,10 +9,10 @@ using namespace std;
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-vector <vector<double>> load(){
+vector <vector<double>> load(string route){
 	int n; 
 	fstream F;
-	F.open("readFile.txt");
+	F.open(route);
 	F>>n;
 	vector <vector<double>> P;
 	vector <double> X(n+1), Y(n+1); 
@@ -29,11 +29,7 @@ vector <vector<double>> load(){
 	
 	P.push_back(X);
 	P.push_back(Y);
-	/*
-	vector <double> P;
-	P.insert(P.begin(),X.begin(),X.end());
-	P.insert(P.end(),Y.begin(),Y.end());
-	*/
+	
 	return P;
 }
 
@@ -117,27 +113,24 @@ bool Int_Ext(vector<vector<double>> P, vector<double> punt){
 	
 	for(int i = 1; i<P[0].size();i++){
 		double m = (P[1][i]-P[1][i-1])/(P[0][i]-P[0][i-1]);	
-		y = m*(x-P[0][i]) + P[1][i];
 		
-		if ((x-P[0][i])*(x-P[0][i+1])<0 && (y-punt[1])*(y-maxY+1)<0) cpt += 1;	
+		y = m*(x-P[0][i]) + P[1][i];
+
+		if ((x-P[0][i])*(x-P[0][i-1])<0 && (y-punt[1])*(y-maxY-1)<0) cpt += 1;	
 	}
 	
 	if (cpt%2 != 0){
-		cout << "Por dentro" << endl;
+		cout << "The point is Inside of the polygon" << endl;
 		return true;
 	}else{
-		cout << "Por fuera" << endl;
+		cout << "The point is Outside of the polygon" << endl;
 		return false;
 	}
 }
-bool compareFloats(double a, double b)
-{
-	cout << a << endl;
-	cout << b << endl;
-    if (abs(a - b) < 0.0000000000001) {
-    
 
-        return true;
+bool compareFloats(double a, double b){
+    if (abs(a - b) < 0.000001) {
+		return true;
     }
     else {
         return false;
@@ -163,41 +156,24 @@ bool regular(vector<vector<double>> P){
 		mag2 = pow( pow(x2, 2) + pow(y2, 2) , 0.5);
 	
 		ang = acos(prodP/(mag1*mag2));
-		
-		/*
-		if(i!=1){
-			if(ang != ang0)	{
-				cout << "Le polygon n'est pas regular" << endl;
-				return false;
-			}	
-		}else{
-			ang0 = ang;
-		}
-		*/
 	    
-	    cout << "ang0"<< ang0 << endl;
-	    cout << "ang"<< ang<< endl;
-
+		if(!compareFloats(mag1,mag2)){
+			cout << "Le polygon n'est pas regulier" << endl;
+			return false;
+		}
 		
 		if(i!=1){
-			if(compareFloats(ang,ang0)==false)	{
-				cout << compareFloats(ang,ang0) << endl;
-				
-				cout << " 1 Le polygon n'est pas regulier" << endl;
+			if(!compareFloats(ang,ang0)){
+				cout << "Le polygon n'est pas regulier" << endl;
 				return false;
 			}
-		
-
 		}else{
-			cout << "2 Le polygon n'est pas regulier" << endl;
-
 			ang0 = ang;
-			
 		}
 		
 		
 	}
-	cout << "3 Le polygon est regulier" << endl;
+	cout << "Le polygon est regulier" << endl;
 	return true;
 }
 
@@ -205,7 +181,7 @@ bool regular(vector<vector<double>> P){
 
 int main() {
 	vector <vector<double>> P;   
-	P = load();
+	P = load("PolNoReg.txt");
 	cout << "Original polygon loaded" << endl;
 	print(P);
 	vector <vector<double>> Q=P;
@@ -213,7 +189,7 @@ int main() {
 	cout << "Polygon after cleaning" << endl;
 	print(P);
 	
-	//Q[0][0]=9;
+	Q[0][0]=9;
 	cout << "Polygon for comparing" << endl;
 	print(Q);
 	same(P,Q);
