@@ -130,6 +130,19 @@ bool Int_Ext(vector<vector<double>> P, vector<double> punt){
 		return false;
 	}
 }
+bool compareFloats(double a, double b)
+{
+	cout << a << endl;
+	cout << b << endl;
+    if (abs(a - b) < 0.0000000000001) {
+    
+
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 bool regular(vector<vector<double>> P){
 	int n=P[0].size()-1;
@@ -150,6 +163,8 @@ bool regular(vector<vector<double>> P){
 		mag2 = pow( pow(x2, 2) + pow(y2, 2) , 0.5);
 	
 		ang = acos(prodP/(mag1*mag2));
+		
+		/*
 		if(i!=1){
 			if(ang != ang0)	{
 				cout << "Le polygon n'est pas regular" << endl;
@@ -158,10 +173,34 @@ bool regular(vector<vector<double>> P){
 		}else{
 			ang0 = ang;
 		}
+		*/
+	    
+	    cout << "ang0"<< ang0 << endl;
+	    cout << "ang"<< ang<< endl;
+
+		
+		if(i!=1){
+			if(compareFloats(ang,ang0)==false)	{
+				cout << compareFloats(ang,ang0) << endl;
+				
+				cout << " 1 Le polygon n'est pas regulier" << endl;
+				return false;
+			}
+		
+
+		}else{
+			cout << "2 Le polygon n'est pas regulier" << endl;
+
+			ang0 = ang;
+			
+		}
+		
+		
 	}
-	cout << "Le polygon est regular" << endl;
+	cout << "3 Le polygon est regulier" << endl;
 	return true;
 }
+
 
 
 int main() {
