@@ -204,5 +204,12 @@ int main() {
 	punt[1]=2.3;
 	Int_Ext(P,punt);
 	
+	print(P);
+	print(P);
+	print(P);
+	print(P);
+	print(P);
+	print(P);
+	print(P);
 	return 0;
 }
