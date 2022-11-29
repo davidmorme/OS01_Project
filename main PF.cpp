@@ -97,12 +97,14 @@ double perimeter(vector<vector<double>> P){
 	return per;
 }
 
+//print 
 void print(vector<vector<double>> P){
 		for(int j = 0; j < P[0].size(); j++){
 		cout << "P" << j << "= (" << P[0][j] << " , " << P[1][j] << ")" << endl;
 	}
 }
 
+//verifier si un point est l'intérieur d'un polygone 
 bool Int_Ext(vector<vector<double>> P, vector<double> punt){
 	int n=P[0].size()-1;
 	double maxY = P[1][0]; for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);
@@ -177,11 +179,75 @@ bool regular(vector<vector<double>> P){
 	return true;
 }
 
+int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
+	  int Xab = ax - bx;
+      int Yab = ay - by;
+      int Xcb = cx - bx;
+      int Ycb = cy - by;
+      return (Xab * Ycb - Yab * Xcb);
+}
 
+bool isConvex(vector <vector<double>> P){
+	// tous les angles sont inférieur à 180 deg 
+	// Calculer le cross product entre deux points consécutifs si c'est <0 c'est que le sinus est négatif et l'angle entre les deux c'est > 180 
+	// 
+	
+	int n=P[0].size()-1;
+//	int cp= CrossProduct(P[0][0],P[1][0], P[0][1],P[1][1],P[0][2],P[1][2]); 
+	for (int k=0;k<n;k++){
+		int ax=P[0][k];
+		int bx=P[0][k+1];
+		int cx=P[0][k+2];
+		
+		int ay=P[1][k];
+		int by=P[1][k+1];
+		int cy=P[1][k+2];
+		
+		int cp= CrossProduct(int ax, int ay, int bx, int by, int cx, int cy);
+		// cp<0 : angle>180
+
+	}	
+	if (cp<0):
+		return false;
+	else
+		return true;
+	
+}
+
+
+/*
+bool isConvex(vector <vector<double>> P){
+	// tous les angles sont inférieur à 180 deg 
+	int n=P[0].size()-1;
+	numInt=0;
+	//verifier que tous les points sont à l'interieur
+	for(int i = 1; i<n; i++){
+		//punt=getPoint(); // verticies
+		
+		if(Int_Ext(vector<vector<double>> P, vector<double> point)):
+			numInt+=1; 
+	}
+	if (numInt==n):
+		return true;
+	else return false; 
+		
+	
+} */
+
+bool isSimple(vector <vector<double>> P){
+	if isConvex(P){
+		return true; 
+	}
+	else {
+		//code
+	}
+	return true 
+} 
 
 int main() {
 	vector <vector<double>> P;   
 	P = load("PolNoReg.txt");
+	
 	cout << "Original polygon loaded" << endl;
 	print(P);
 	vector <vector<double>> Q=P;
