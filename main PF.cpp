@@ -186,11 +186,13 @@ int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
       int Ycb = cy - by;
       return (Xab * Ycb - Yab * Xcb);
 }
+int determinant(int ax, int ay, int bx, int by){
+	  return (ax*by)-(ay*bx);
+}
 
 bool isConvex(vector <vector<double>> P){
 	// tous les angles sont inférieur à 180 deg 
 	// Calculer le cross product entre deux points consécutifs si c'est <0 c'est que le sinus est négatif et l'angle entre les deux c'est > 180 
-	// 
 	
 	int n=P[0].size()-1;
 	int cp=0;
@@ -201,7 +203,7 @@ bool isConvex(vector <vector<double>> P){
 		int ax=P[0][k];
 		int bx=P[0][k+1];
 		int cx=P[0][k+2];
-		
+	
 		int ay=P[1][k];
 		int by=P[1][k+1];
 		int cy=P[1][k+2];
@@ -214,7 +216,7 @@ bool isConvex(vector <vector<double>> P){
 		cout << "Polygone non convexe";
 		return false;
 	}
-}
+}	
 	cout <<"Polygone convexe";
 	return true;
 	
@@ -241,19 +243,32 @@ bool isConvex(vector <vector<double>> P){
 } */
 
 bool isSimple(vector <vector<double>> P){
-	if (isConvex(P)){
-		return true; 
-	}
-	else {
-		//code
-	}
-	return true; 
-} 
+	bool intersection;
+	int n=P[0].size()-1;
+    for (int k=0;k<n-2;k++){
+		int ax=P[0][k];
+		int bx=P[0][k+2];
+	
+		int ay=P[1][k];
+		int by=P[1][k+2];
+		if (determinant (ax,ay,bx,by)==0){
+			intersection=false;
+		}
+		else {
+			intersection=true;
+		}	
+
+}
+cout << "intersection" << intersection<<endl;
+return intersection;
+
+}
+
 
 
 int main() {
 	vector <vector<double>> P;   
-	P = load("convexe.txt");
+	P = load("Cuadrado.txt");
 	
 	cout << "Original polygon loaded" << endl;
 	print(P);
@@ -277,7 +292,12 @@ int main() {
 	punt[1]=2.3;
 	Int_Ext(P,punt);
 	
-	isConvex(P);
+	isSimple(P);
+	/* Un polygone est simple si l'intersection de deux côtés non adjacents est vide. Par définition, l'intersection 
+	est réduite à un point pour deux côtés adjacents. Dans le cas des polygones simples, on distingue
+	facilement un intérieur et un extérieur. */
+	
+	//isConvex(P);
 	
 	return 0;
 }
