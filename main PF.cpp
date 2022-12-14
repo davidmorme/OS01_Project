@@ -193,6 +193,9 @@ bool isConvex(vector <vector<double>> P){
 	// 
 	
 	int n=P[0].size()-1;
+	int cp=0;
+	bool neg=false;
+	bool pos=false;
 //	int cp= CrossProduct(P[0][0],P[1][0], P[0][1],P[1][1],P[0][2],P[1][2]); 
 	for (int k=0;k<n;k++){
 		int ax=P[0][k];
@@ -203,14 +206,17 @@ bool isConvex(vector <vector<double>> P){
 		int by=P[1][k+1];
 		int cy=P[1][k+2];
 		
-		int cp= CrossProduct(int ax, int ay, int bx, int by, int cx, int cy);
-		// cp<0 : angle>180
-
-	}	
-	if (cp<0):
+		int cp= CrossProduct( ax, ay,  bx,  by,  cx,  cy);
+		// cp<0 : angle>180		
+	if (cp<0) neg=true;	
+	else if (cp>0) pos=true;
+	if (neg&&pos)  {
+		cout << "Polygone non convexe";
 		return false;
-	else
-		return true;
+	}
+}
+	cout <<"Polygone convexe";
+	return true;
 	
 }
 
@@ -235,18 +241,19 @@ bool isConvex(vector <vector<double>> P){
 } */
 
 bool isSimple(vector <vector<double>> P){
-	if isConvex(P){
+	if (isConvex(P)){
 		return true; 
 	}
 	else {
 		//code
 	}
-	return true 
+	return true; 
 } 
+
 
 int main() {
 	vector <vector<double>> P;   
-	P = load("PolNoReg.txt");
+	P = load("convexe.txt");
 	
 	cout << "Original polygon loaded" << endl;
 	print(P);
@@ -269,6 +276,8 @@ int main() {
 	punt[0]=2.3;
 	punt[1]=2.3;
 	Int_Ext(P,punt);
+	
+	isConvex(P);
 	
 	return 0;
 }
