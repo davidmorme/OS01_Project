@@ -93,7 +93,7 @@ double perimeter(vector<vector<double>> P){
 	for (int i = 1; i<P[0].size(); i++){
 		per += pow( pow(P[0][i]-P[0][i-1], 2) + pow(P[1][i]-P[1][i-1], 2) , 0.5);
 	} 
-	cout << "Le perimeter du polygon est: " << per <<endl;
+	cout << "Le perimetere du polygone est: " << per <<endl;
 	return per;
 }
 
@@ -160,13 +160,13 @@ bool regular(vector<vector<double>> P){
 		ang = acos(prodP/(mag1*mag2));
 	    
 		if(!compareFloats(mag1,mag2)){
-			cout << "Le polygon n'est pas regulier" << endl;
+			cout << "Le polygone n'est pas regulier" << endl;
 			return false;
 		}
 		
 		if(i!=1){
 			if(!compareFloats(ang,ang0)){
-				cout << "Le polygon n'est pas regulier" << endl;
+				cout << "Le polygone n'est pas regulier" << endl;
 				return false;
 			}
 		}else{
@@ -179,6 +179,7 @@ bool regular(vector<vector<double>> P){
 	return true;
 }
 
+
 int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
 	  int Xab = ax - bx;
       int Yab = ay - by;
@@ -186,6 +187,8 @@ int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
       int Ycb = cy - by;
       return (Xab * Ycb - Yab * Xcb);
 }
+
+// Calcul de déterminent 
 int determinant(int ax, int ay, int bx, int by){
 	  return (ax*by)-(ay*bx);
 }
@@ -213,11 +216,11 @@ bool isConvex(vector <vector<double>> P){
 	if (cp<0) neg=true;	
 	else if (cp>0) pos=true;
 	if (neg&&pos)  {
-		cout << "Polygone non convexe";
+		cout << "Polygone non convexe"<<endl;
 		return false;
 	}
 }	
-	cout <<"Polygone convexe";
+	cout <<"Polygone convexe" <<endl;
 	return true;
 	
 }
@@ -245,6 +248,7 @@ bool isConvex(vector <vector<double>> P){
 bool isSimple(vector <vector<double>> P){
 	bool intersection;
 	int n=P[0].size()-1;
+	
     for (int k=0;k<n-2;k++){
 		int ax=P[0][k];
 		int bx=P[0][k+2];
@@ -259,18 +263,34 @@ bool isSimple(vector <vector<double>> P){
 		}	
 }
 if (!intersection)
-	cout << " Le polygone est simple " <<endl;
+	cout << "Le polygone est simple " <<endl;
 else
 	cout << "Le polygone n'est pas simple" <<endl;
 return intersection;
-
 }
 
+double Area(vector <vector<double>> P){
+	double area;
+	int n=P[0].size()-1;
+	double a=0;
+	double b=0;
+	
+	
+	for (int k=0;k<=n-1;k++){		
+		a+= P[0][k]*P[1][k+1];
+		b+= P[1][k]*P[0][k+1]; 
+	}
+	a+= P[0][n]*P[1][0];
+	b+= P[1][n]*P[0][0];
+	area= 1/2 * (a-b);
+	cout <<"area =" << area << endl; 
+	return area;
+}
 
 
 int main() {
 	vector <vector<double>> P;   
-	P = load("Cuadrado.txt");
+	P = load("convexe.txt");
 	
 	cout << "Original polygon loaded" << endl;
 	print(P);
@@ -299,7 +319,9 @@ int main() {
 	est réduite à un point pour deux côtés adjacents. Dans le cas des polygones simples, on distingue
 	facilement un intérieur et un extérieur. */
 	
-	//isConvex(P);
+	isConvex(P);
+	
+	Area(P);
 	
 	return 0;
 }
