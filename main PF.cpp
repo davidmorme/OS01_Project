@@ -257,9 +257,11 @@ bool isSimple(vector <vector<double>> P){
 		else {
 			intersection=true;
 		}	
-
 }
-cout << "intersection" << intersection<<endl;
+if (!intersection)
+	cout << " Le polygone est simple " <<endl;
+else
+	cout << "Le polygone n'est pas simple" <<endl;
 return intersection;
 
 }
