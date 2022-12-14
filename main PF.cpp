@@ -275,16 +275,15 @@ double Area(vector <vector<double>> P){
 	double a=0;
 	double b=0;
 	
-	
 	for (int k=0;k<=n-1;k++){		
-		a+= P[0][k]*P[1][k+1];
-		b+= P[1][k]*P[0][k+1]; 
+		a+= P[0][k-1]*P[1][k];
+		b+= P[1][k-1]*P[0][k]; 
 	}
-	a+= P[0][n]*P[1][0];
-	b+= P[1][n]*P[0][0];
-	area= 1/2 * (a-b);
-	cout <<"area =" << area << endl; 
-	return area;
+	a+= P[0][n-1]*P[1][0];
+	b+= P[1][n-1]*P[0][0];
+	area= abs((a-b)/2);
+	cout <<"area =" << area<< endl; 
+	return (area);
 }
 
 
