@@ -6,21 +6,28 @@
 using namespace std;
 
 class Polygon {
+	friend bool same(Polygon &p_1,Polygon &p_2);
 private:
     int n;
     vector<double> X;
     vector<double> Y;
+    vector <vector<double>> Pol;
 
 public:
-    // Constructor
-    Polygon(int n, vector<double>X, vector<double> Y);
-	// Constructor without arguments with n=0
-	Polygon();
-
+    // Constructeur
+    Polygon(int n, vector<double>X, vector<double> Y) {
+    	n=n;
+    	X=X;
+    	Y=Y;
+	}
+	// Constructeur sans arguments avec n=0
+	Polygon() {n=0;}
     // Accessors
     int getN() const;
     vector<double> getX() const;
     vector<double> getY() const;
+    
+    void print();
 
     // Mutators
     void setN(int n);
@@ -28,28 +35,27 @@ public:
     void setY(vector<double> Y);
     
     // Load
-    vector <vector<double>> load(string route);
+    void load(string route);
 
     // Clean
-    vector<vector<double>> clean();
-
-    // Same
-    bool same(vector<vector<double>> P,vector<vector<double>> Q);
+    void clean();
 
     // Perimeter
-    double perimeter(vector<vector<double>> P);
+    double perimeter();
 
     // Int_Ext
-    bool Int_Ext(vector<vector<double>> P, vector<double> point);
+    bool Int_Ext(vector<double> point);
 
     // Area
-    double Area(vector<vector<double>> P);
+    double Area();
 
     // Is Simple
-    bool isSimple(vector<vector<double>> P);
+    bool isSimple();
 
     // Is Convex
-    bool isConvex(vector<vector<double>> P);
+    bool isConvex();
+    
+    bool regular();
 };
-
+bool same(Polygon &p_1,Polygon &p_2);
 #endif

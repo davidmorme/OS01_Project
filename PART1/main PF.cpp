@@ -34,28 +34,28 @@ vector <vector<double>> load(string route){
 }
 
 vector<vector<double>> clean(vector<vector<double>> P){
-		//secondToLast = myVector[myVector.size() - 2];
-		vector<double> m(P[0].size()-1);
+	//secondToLast = myVector[myVector.size() - 2];
+	vector<double> m(P[0].size()-1);
 
-		for(int i = 1; i<P[0].size();i++){
-			m[i-1]=(P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
+	for(int i = 1; i<P[0].size();i++){
+		m[i-1]=(P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
+	}
+	
+	m.push_back(m[0]);
+	vector<double> X, Y;
+
+	for (int i=1;i<m.size();i++){
+		if(m[i]!=m[i-1]){
+			X.push_back(P[0][i]);
+			Y.push_back(P[1][i]);
 		}
 		
-		m.push_back(m[0]);
-		vector<double> X, Y;
-
-		for (int i=1;i<m.size();i++){
-			if(m[i]!=m[i-1]){
-				X.push_back(P[0][i]);
-				Y.push_back(P[1][i]);
-			}
-			
-		}
-		X.push_back(X[0]);
-		Y.push_back(Y[0]);
-		vector<vector<double>> PN;
-		PN.push_back(X);
-		PN.push_back(Y);
+	}
+	X.push_back(X[0]);
+	Y.push_back(Y[0]);
+	vector<vector<double>> PN;
+	PN.push_back(X);
+	PN.push_back(Y);
 	return PN;
 }
 
@@ -181,8 +181,8 @@ bool regular(vector<vector<double>> P){
 
 
 int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
-	  int Xab = ax - bx;
-      int Yab = ay - by;
+	  int Xab = bx - ax;
+      int Yab = by - ay;
       int Xcb = cx - bx;
       int Ycb = cy - by;
       return (Xab * Ycb - Yab * Xcb);
@@ -201,7 +201,7 @@ bool isConvex(vector <vector<double>> P){
 	bool neg=false;
 	bool pos=false;
 //	int cp= CrossProduct(P[0][0],P[1][0], P[0][1],P[1][1],P[0][2],P[1][2]); 
-	for (int k=0;k<n;k++){
+	for (int k=0;k<n-1;k++){
 		int ax=P[0][k];
 		int bx=P[0][k+1];
 		int cx=P[0][k+2];
@@ -210,15 +210,15 @@ bool isConvex(vector <vector<double>> P){
 		int by=P[1][k+1];
 		int cy=P[1][k+2];
 		
-		int cp= CrossProduct( ax, ay,  bx,  by,  cx,  cy);
+		cp = CrossProduct( ax, ay,  bx,  by,  cx,  cy);
 		// cp<0 : angle>180		
 	if (cp<0) neg=true;	
 	else if (cp>0) pos=true;
 	if (neg&&pos)  {
 		cout << "Polygone non convexe"<<endl;
 		return false;
-	}
-}	
+		}
+	}	
 	cout <<"Polygone convexe" <<endl;
 	return true;
 	
@@ -271,7 +271,7 @@ double Area(vector <vector<double>> P){
 
 int main() {
 	vector <vector<double>> P;   
-	P = load("NonSimple.txt");
+	P = load("Rectangulo.txt");
 	
 	cout << "Original polygon loaded" << endl;
 	print(P);

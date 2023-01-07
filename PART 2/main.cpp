@@ -8,31 +8,27 @@
 #include "polygon.h"
 
 using namespace std;
-	
+
 int main(){
-	Polygon polygon;
-	vector <vector<double>> P= polygon.load("Rectangulo.txt");
-	vector<double>X;
-	vector<double>Y;
-	int n=P[0].size()-1;
-	X.resize(n);
-	Y.resize(n);
-	polygon.setN(n);
-	polygon.setX(X);
-	polygon.setY(Y);
-	for (int i=0;i<n;i++){
-		X[i] = P[0][i];
-		Y[i] = P[1][i];	
-	}
-	polygon.clean();
-	double per = polygon.perimeter(P);
-	vector<vector<double>> Q = P;
-	bool isSame = polygon.same(P, Q);
+	Polygon polygon_1;
+	polygon_1.load("Cuadrado.txt");
+	polygon_1.print();
+	polygon_1.clean();
+	cout << "Polygon cleaned: " << endl;
+	polygon_1.print();
+	polygon_1.perimeter();
+	
+	Polygon polygon_2;
+	polygon_2.load("Cuadrado.txt");
+	
+	same(polygon_1,polygon_2);
 	vector<double> point(2);
 	point[0]=2.3;
 	point[1]=2.3;
-	bool isInt = polygon.Int_Ext(P,point);
-	double area = polygon.Area(P);
-	bool isSimple=polygon.isSimple(P);
-	bool isConvex=polygon.isConvex(P);
+	polygon_1.Int_Ext(point);
+	polygon_1.Area();
+	polygon_1.isSimple();
+	polygon_1.isConvex();
+	polygon_1.regular();
+
 }  

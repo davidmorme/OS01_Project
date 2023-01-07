@@ -1,2 +1,12 @@
 [Editors]
+<<<<<<< HEAD
 Order=
+=======
+Order=0
+Focused=0
+[Editor_0]
+CursorCol=27
+CursorRow=107
+TopLine=16
+LeftChar=1
+>>>>>>> 3f3ecfdfcead857937641b483771b8dd5482aaff
