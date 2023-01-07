@@ -7,8 +7,8 @@
 #include "utilities.h"
 using namespace std;
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
+// run this program using the console pauser or add your own getch, system("pause") or input loop */
+/*
 vector <vector<double>> load(string route){
 	int n; 
 	fstream F;
@@ -290,20 +290,18 @@ int main() {
 	regular(P);
 	
 	
-	vector<double> punt (2);
-	punt[0]=2.3;
-	punt[1]=2.3;
-	Int_Ext(P,punt);
+	vector<double> point (2);
+	point[0]=2.3;
+	point[1]=2.3;
+	Int_Ext(P,point);
 	
 	isSimple(P);
+
 	
-	/* Un polygone est simple si l'intersection de deux côtés non adjacents est vide. Par définition, l'intersection 
-	est réduite à un point pour deux côtés adjacents. Dans le cas des polygones simples, on distingue
-	facilement un intérieur et un extérieur. */
-	
-	isConvex(P);
+	sConvex(P);
 	
 	Area(P);
 	
 	return 0;
 }
+*/
