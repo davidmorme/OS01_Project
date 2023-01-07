@@ -21,9 +21,8 @@ public:
     	Y=Y;
 	}
 	// Constructeur sans arguments avec n=0
-	Polygon(){
-		n=0;
-	};
+	Polygon() {n=0;}
+
 	
     // Accesseurs
     int getN() const { return n; }
@@ -326,6 +325,7 @@ double Area(vector <vector<double>> P){
 }
     
 };
+/*
 
 int main(){
 	Polygon polygon;
@@ -362,6 +362,34 @@ for (auto x : X) {
 std::cout << std::endl;
 } */
 
-}
+/*
+int main(){
+	Polygon polygon;
+	vector <vector<double>> P= polygon.load("Rectangulo.txt");
+	vector<double>X;
+	vector<double>Y;
+	int n=P[0].size()-1;
+	X.resize(n);
+	Y.resize(n);
+	polygon.setN(n);
+	polygon.setX(X);
+	polygon.setY(Y);
+	for (int i=0;i<n;i++){
+		X[i] = P[0][i];
+		Y[i] = P[1][i];	
+	}
+	polygon.clean();
+	double per = polygon.perimeter(P);
+	vector<vector<double>> Q = P;
+	bool isSame = polygon.same(P, Q);
+	vector<double> point(2);
+	point[0]=2.3;
+	point[1]=2.3;
+	bool isInt = polygon.Int_Ext(P,point);
+	double area = polygon.Area(P);
+	bool isSimple=polygon.isSimple(P);
+	bool isConvex=polygon.isConvex(P); }
+	*/
+
 
 
