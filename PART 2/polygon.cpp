@@ -5,37 +5,11 @@
 #include <string> 
 #include <cmath>
 #include "utilities.h"
+#include "polygon.h"
 using namespace std;
 
-class Polygon {
-private:
-    int n;
-    vector<double> X;
-    vector<double> Y;
-
-public:
-    // Constructeur
-    Polygon(int n, vector<double>X, vector<double> Y) {
-    	n=n;
-    	X=X;
-    	Y=Y;
-	}
-	// Constructeur sans arguments avec n=0
-	Polygon() {n=0;}
-
-	
-    // Accesseurs
-    int getN() const { return n; }
-    vector<double> getX() const { return X; }
-    vector<double> getY() const { return Y; }
-
-    // Mutateurs
-    void setN(int n) { this->n = n; }
-    void setX(vector<double> X) { this->X = X; }
-    void setY(vector<double> Y) { this->Y = Y; }
-    
-	//Load
-    vector <vector<double>> load(string route){
+//Load
+void Polygon::load(string route){
 	int n; 
 	fstream F;
 	F.open(route);
@@ -56,29 +30,34 @@ public:
 	P.push_back(X);
 	P.push_back(Y);
 	
-	return P;
+	Pol=P;
 }
 
 //Clean
-vector<vector<double>> clean() {
-  vector<double> m(this->X.size()-1);
-  for(int i = 1; i<this->X.size();i++){
-    m[i-1] = (this->X[i]-this->X[i-1])/(this->Y[i]-this->Y[i-1]);
-  }
-  m.push_back(m[0]);
-  vector<double> X, Y;
-  for (int i=1;i<m.size();i++){
-    if(m[i]!=m[i-1]){
-      X.push_back(this->X[i]);
-      Y.push_back(this->Y[i]);
-    }   
-  }
-  X.push_back(X[0]);
-  Y.push_back(Y[0]);
-  vector<vector<double>> PN;
-  PN.push_back(X);
-  PN.push_back(Y);
-  return PN;
+void Polygon::clean() {
+	vector<vector<double>> P = Pol;
+	vector<double> m(P[0].size()-1);
+
+	for(int i = 1; i<P[0].size();i++){
+		m[i-1]=(P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
+	}
+	
+	m.push_back(m[0]);
+	vector<double> X, Y;
+
+	for (int i=1;i<m.size();i++){
+		if(m[i]!=m[i-1]){
+			X.push_back(P[0][i]);
+			Y.push_back(P[1][i]);
+		}
+		
+	}
+	X.push_back(X[0]);
+	Y.push_back(Y[0]);
+	vector<vector<double>> PN;
+	PN.push_back(X);
+	PN.push_back(Y);
+	Pol = PN;
 }
 
 /*
@@ -104,9 +83,13 @@ vector<vector<double>> clean(vector<vector<double>> P){
 }
 */
 //Same
-bool same(vector<vector<double>> P,vector<vector<double>> Q){
+bool same(Polygon &p_1,Polygon &p_2){
+	vector<vector<double>> P = p_1.Pol;
+	vector<vector<double>> Q = p_2.Pol;
+	
 	int n=P[0].size()-1;
 	if(P[0].size()!=Q[0].size()){
+		cout << "The two polygons are different" << endl;
 		return false;
 	}
 	for(int j=0; j<n-1;j++){
@@ -134,7 +117,8 @@ bool same(vector<vector<double>> P,vector<vector<double>> Q){
 }
 //perimetre
 
-double perimeter(vector<vector<double>> P){
+double Polygon::perimeter(){
+	vector<vector<double>> P=Pol;
 	double per = 0.0;
 	for (int i = 1; i<P[0].size(); i++){
 		per += pow( pow(P[0][i]-P[0][i-1], 2) + pow(P[1][i]-P[1][i-1], 2) , 0.5);
@@ -154,37 +138,39 @@ double perimeter() {
 */
 
 //print 
-void print(vector<vector<double>> P){
-		for(int j = 0; j < P[0].size(); j++){
+void Polygon::print(){
+	vector<vector<double>> P = Pol;
+	for(int j = 0; j < P[0].size(); j++){
 		cout << "P" << j << "= (" << P[0][j] << " , " << P[1][j] << ")" << endl;
 	}
 }
 
 	//verifier si un point est l'intérieur d'un polygone 
 	//Int_ext
-	bool Int_Ext(vector<vector<double>> P, vector<double> point){
-		int n=P[0].size()-1;
-		double maxY = P[1][0];
-		for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);	
-		double x = point[0];
-		double y;
-		int cpt=0;
-		for(int i = 1; i<P[0].size();i++){
-			double m = (P[1][i]-P[1][i-1])/(P[0][i]-P[0][i-1]);	
-			
-			y = m*(x-P[0][i]) + P[1][i];
-	
-			if ((x-P[0][i])*(x-P[0][i-1])<0 && (y-point[1])*(y-maxY-1)<0) cpt += 1;	
-		}
+bool Polygon::Int_Ext(vector<double> point){
+	vector<vector<double>> P=Pol;
+	int n=P[0].size()-1;
+	double maxY = P[1][0];
+	for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);	
+	double x = point[0];
+	double y;
+	int cpt=0;
+	for(int i = 1; i<P[0].size();i++){
+		double m = (P[1][i]-P[1][i-1])/(P[0][i]-P[0][i-1]);	
 		
-		if (cpt%2 != 0){
-			cout << "Le point est à l'interieur du polygone'" << endl;
-			return true;                 
-		}else{
-			cout << "Le point est à l'exterieur du polygone'" << endl;
-			return false;                
-		}
+		y = m*(x-P[0][i]) + P[1][i];
+
+		if ((x-P[0][i])*(x-P[0][i-1])<0 && (y-point[1])*(y-maxY-1)<0) cpt += 1;	
 	}
+	
+	if (cpt%2 != 0){
+		cout << "Le point est à l'interieur du polygone'" << endl;
+		return true;                 
+	}else{
+		cout << "Le point est à l'exterieur du polygone'" << endl;
+		return false;                
+	}
+}
 
 bool compareFloats(double a, double b){
     if (abs(a - b) < 0.000001) {
@@ -195,7 +181,8 @@ bool compareFloats(double a, double b){
     }
 }
 //regular ou pas?
-bool regular(vector<vector<double>> P){
+bool Polygon::regular(){
+	vector<vector<double>> P = Pol;
 	int n=P[0].size()-1;
 	
 	double x1, x2, y1, y2, prodP, mag1, mag2, ang, ang0;
@@ -237,8 +224,8 @@ bool regular(vector<vector<double>> P){
 
 //CrossProduct
 int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
-	  int Xab = ax - bx;
-      int Yab = ay - by;
+	  int Xab = bx - ax;
+      int Yab = by - ay;
       int Xcb = cx - bx;
       int Ycb = cy - by;
       return (Xab * Ycb - Yab * Xcb);
@@ -249,15 +236,16 @@ int determinant(int ax, int ay, int bx, int by){
 	  return (ax*by)-(ay*bx);
 }
 
-bool isConvex(vector <vector<double>> P){
+bool Polygon::isConvex(){
 	// tous les angles sont inférieur à 180 deg 
-	// Calculer le cross product entre deux points consécutifs si c'est <0 c'est que le sinus est négatif et l'angle entre les deux c'est > 180 	
+	// Calculer le cross product entre deux points consécutifs si c'est <0 c'est que le sinus est négatif et l'angle entre les deux c'est > 180 
+	vector <vector<double>> P = Pol;	
 	int n=P[0].size()-1;
 	int cp=0;
 	bool neg=false;
 	bool pos=false;
 //	int cp= CrossProduct(P[0][0],P[1][0], P[0][1],P[1][1],P[0][2],P[1][2]); 
-	for (int k=0;k<n;k++){
+	for (int k=0;k<n-1;k++){
 		int ax=P[0][k];
 		int bx=P[0][k+1];
 		int cx=P[0][k+2];
@@ -279,7 +267,8 @@ bool isConvex(vector <vector<double>> P){
 	return true;
 }
 //isSimple
-bool isSimple(vector <vector<double>> P){
+bool Polygon::isSimple(){
+	vector <vector<double>> P = Pol;
 	bool intersection;
 	int n=P[0].size()-1;
 	//cout <<"n"<< n << endl;
@@ -307,7 +296,8 @@ else
 return intersection;
 }
 //Area
-double Area(vector <vector<double>> P){
+double Polygon::Area(){
+	vector <vector<double>> P=Pol;
 	double area;
 	int n=P[0].size()-1;
 	double a=0;
@@ -320,48 +310,9 @@ double Area(vector <vector<double>> P){
 	a+= P[0][n-1]*P[1][0];
 	b+= P[1][n-1]*P[0][0];
 	area= abs((a-b)/2);
-	cout <<"area =" << area<< endl; 
+	cout <<"L'area du polygon est = " << area<< endl; 
 	return (area);
 }
-    
-};
-
-/*
-int main(){
-	Polygon polygon;
-	vector <vector<double>>P= polygon.load("Rectangulo.txt");
-// vector <vector<double>> P2=polygon.load("convexe.txt");
-	vector<double>X;
-	vector<double>Y;
-	int n=P[0].size()-1;
-	X.resize(n);
-	Y.resize(n);
-	polygon.setN(n);
-	polygon.setX(X);
-	polygon.setY(Y);
-	for (int i=0;i<n;i++){
-		X[i] = P[0][i];
-		Y[i] = P[1][i];	
-	}
-	polygon.clean();
-	double per = polygon.perimeter(P);
-	vector<vector<double>> Q = P;
-	bool isSame = polygon.same(P, Q);
-	vector<double> point(2);
-	point[0]=2.3;
-	point[1]=2.3;
-	bool isInt = polygon.Int_Ext(P,point);
-	double area = polygon.Area(P);
-	bool isSimple=polygon.isSimple(P);
-	bool isConvex=polygon.isConvex(P);
-
-
-// Afficher les abcisses
-for (auto x : X) {
-    std::cout << x << " ";
-std::cout << std::endl;
-} */
-
 
 
 
