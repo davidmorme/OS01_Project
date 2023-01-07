@@ -1,6 +1,6 @@
-
 #include <vector>
 #include <string>
+
 using namespace std;
 
 class Polygon {
@@ -16,9 +16,9 @@ public:
 	Polygon();
 
     // Accessors
-    int getN() const;
-    vector<double> getX() const;
-    vector<double> getY() const;
+    int getN();
+    vector<double> getX();
+    vector<double> getY();
 
     // Mutators
     void setN(int n);
@@ -48,6 +48,11 @@ public:
 
     // Is Convex
     bool isConvex(vector<vector<double>> P);
+    
+    void print(vector<vector<double>> P) ;
+    bool compareFloats(double a, double b);
+    int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy);
+    int determinant(int ax, int ay, int bx, int by);
 };
 
 

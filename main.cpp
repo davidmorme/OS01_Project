@@ -6,12 +6,10 @@
 #include <cmath>
 #include "utilities.h"
 #include "polygon.h"
-
 using namespace std;
 	
 int main(){
-	Polygon polygon=Polygon();
-	
+    Polygon polygon = Polygon();
 	vector <vector<double>> P= polygon.load("Rectangulo.txt");
 	vector<double>X;
 	vector<double>Y;
@@ -32,8 +30,8 @@ int main(){
 	vector<double> point(2);
 	point[0]=2.3;
 	point[1]=2.3;
-//	bool isInt = polygon.Int_Ext(P,point);
+	bool isInt = polygon.Int_Ext(P,point);
 	double area = polygon.Area(P);
-//	bool isSimple=polygon.isSimple(P);
-//	bool isConvex=polygon.isConvex(P);
+	bool isSimple=polygon.isSimple(P);
+	bool isConvex=polygon.isConvex(P);
 } 

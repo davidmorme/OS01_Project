@@ -5,8 +5,9 @@
 #include <string> 
 #include <cmath>
 #include "utilities.h"
+#include "polygon.h"
 using namespace std;
-
+/*
 class Polygon {
 private:
     int n;
@@ -14,28 +15,29 @@ private:
     vector<double> Y;
 
 public:
+*/
     // Constructeur
-    Polygon(int n, vector<double>X, vector<double> Y) {
+    Polygon::Polygon(int n, vector<double>X, vector<double> Y) {
     	this->n=n;
     	this->X=X;
     	this->Y=Y;
 	}
 	// Constructeur sans arguments avec n=0
-	Polygon() {n=0;};
+	Polygon::Polygon() {n=0;};
 
 	
     // Accesseurs
-    int getN() const { return n; }
-    vector<double> getX() const { return X; }
-    vector<double> getY() const { return Y; }
+    int Polygon::getN() { return n; }
+    vector<double> Polygon::getX() { return X; }
+    vector<double> Polygon::getY() { return Y; }
 
     // Mutateurs
-    void setN(int n) { this->n = n; }
-    void setX(vector<double> X) { this->X = X; }
-    void setY(vector<double> Y) { this->Y = Y; }
+    void Polygon::setN(int n) { this->n = n; }
+    void Polygon::setX(vector<double> X) { this->X = X; }
+    void Polygon::setY(vector<double> Y) { this->Y = Y; }
     
 	//Load
-    vector <vector<double>> load(string route){
+    vector <vector<double>> Polygon:: load(string route){
 	int n; 
 	fstream F;
 	F.open(route);
@@ -60,7 +62,7 @@ public:
 }
 
 //Clean
-vector<vector<double>> clean() {
+vector<vector<double>> Polygon::clean() {
   vector<double> m(this->X.size()-1);
   for(int i = 1; i<this->X.size();i++){
     m[i-1] = (this->X[i]-this->X[i-1])/(this->Y[i]-this->Y[i-1]);
@@ -104,7 +106,7 @@ vector<vector<double>> clean(vector<vector<double>> P){
 }
 */
 //Same
-bool same(vector<vector<double>> P,vector<vector<double>> Q){
+bool Polygon::same(vector<vector<double>> P,vector<vector<double>> Q){
 	int n=P[0].size()-1;
 	if(P[0].size()!=Q[0].size()){
 		return false;
@@ -134,7 +136,7 @@ bool same(vector<vector<double>> P,vector<vector<double>> Q){
 }
 //perimetre
 
-double perimeter(vector<vector<double>> P){
+double Polygon::perimeter(vector<vector<double>> P){
 	double per = 0.0;
 	for (int i = 1; i<P[0].size(); i++){
 		per += pow( pow(P[0][i]-P[0][i-1], 2) + pow(P[1][i]-P[1][i-1], 2) , 0.5);
@@ -154,7 +156,7 @@ double perimeter() {
 */
 
 //print 
-void print(vector<vector<double>> P){
+void Polygon::print(vector<vector<double>> P){
 		for(int j = 0; j < P[0].size(); j++){
 		cout << "P" << j << "= (" << P[0][j] << " , " << P[1][j] << ")" << endl;
 	}
@@ -162,7 +164,7 @@ void print(vector<vector<double>> P){
 
 	//verifier si un point est l'intérieur d'un polygone 
 	//Int_ext
-	bool Int_Ext(vector<vector<double>> P, vector<double> point){
+	bool Polygon::Int_Ext(vector<vector<double>> P, vector<double> point){
 		int n=P[0].size()-1;
 		double maxY = P[1][0];
 		for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);	
@@ -236,7 +238,7 @@ bool regular(vector<vector<double>> P){
 }
 
 //CrossProduct
-int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
+int Polygon::CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
 	  int Xab = ax - bx;
       int Yab = ay - by;
       int Xcb = cx - bx;
@@ -245,11 +247,11 @@ int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
 }
 
 // Calcul de déterminent 
-int determinant(int ax, int ay, int bx, int by){
+int Polygon::determinant(int ax, int ay, int bx, int by){
 	  return (ax*by)-(ay*bx);
 }
 
-bool isConvex(vector <vector<double>> P){
+bool Polygon::isConvex(vector <vector<double>> P){
 	// tous les angles sont inférieur à 180 deg 
 	// Calculer le cross product entre deux points consécutifs si c'est <0 c'est que le sinus est négatif et l'angle entre les deux c'est > 180 	
 	int n=P[0].size()-1;
@@ -279,7 +281,7 @@ bool isConvex(vector <vector<double>> P){
 	return true;
 }
 //isSimple
-bool isSimple(vector <vector<double>> P){
+bool Polygon::isSimple(vector <vector<double>> P){
 	bool intersection;
 	int n=P[0].size()-1;
 	//cout <<"n"<< n << endl;
@@ -307,7 +309,7 @@ else
 return intersection;
 }
 //Area
-double Area(vector <vector<double>> P){
+double Polygon::Area(vector <vector<double>> P){
 	double area;
 	int n=P[0].size()-1;
 	double a=0;
@@ -324,7 +326,7 @@ double Area(vector <vector<double>> P){
 	return (area);
 }
     
-};
+
 
 /*
 int main(){
