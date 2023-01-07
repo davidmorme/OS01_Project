@@ -9,30 +9,26 @@ class Polygon {
 	friend bool same(Polygon &p_1,Polygon &p_2);
 private:
     int n;
-    vector<double> X;
-    vector<double> Y;
     vector <vector<double>> Pol;
 
 public:
     // Constructeur
-    Polygon(int n, vector<double>X, vector<double> Y) {
+    Polygon(int n, vector <vector<double>> Pol) {
     	n=n;
-    	X=X;
-    	Y=Y;
+    	Pol=Pol;
 	}
 	// Constructeur sans arguments avec n=0
 	Polygon() {n=0;}
     // Accessors
     int getN() const;
-    vector<double> getX() const;
-    vector<double> getY() const;
+    vector<double> getPol() const;
+
     
     void print();
 
     // Mutators
     void setN(int n);
-    void setX(vector<double> X);
-    void setY(vector<double> Y);
+    void setPol(vector<double> Pol);
     
     // Load
     void load(string route);

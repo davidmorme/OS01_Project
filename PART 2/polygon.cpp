@@ -60,28 +60,6 @@ void Polygon::clean() {
 	Pol = PN;
 }
 
-/*
-vector<vector<double>> clean(vector<vector<double>> P){
-		vector<double> m(P[0].size()-1);
-		for(int i = 1; i<P[0].size();i++){
-			m[i-1] = (P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
-		}
-		m.push_back(m[0]);
-		vector<double> X, Y;
-		for (int i=1;i<m.size();i++){
-			if(m[i]!=m[i-1]){
-				X.push_back(P[0][i]);
-				Y.push_back(P[1][i]);
-			}	
-		}
-		X.push_back(X[0]);
-		Y.push_back(Y[0]);
-		vector<vector<double>> PN;
-		PN.push_back(X);
-		PN.push_back(Y);
-	return PN;
-}
-*/
 //Same
 bool same(Polygon &p_1,Polygon &p_2){
 	vector<vector<double>> P = p_1.Pol;
@@ -126,16 +104,6 @@ double Polygon::perimeter(){
 	cout << "Le perimetere du polygone est: " << per <<endl;
 	return per;
 }
-/*
-double perimeter() {
-    double per = 0.0;
-    for (int i = 1; i<this->X.size(); i++){
-        per += pow( pow(this->X[i]-this->X[i-1], 2) + pow(this->Y[i]-this->Y[i-1], 2) , 0.5);
-    } 
-    cout << "Le perimetere du polygone est: " << per <<endl;
-    return per;
-}
-*/
 
 //print 
 void Polygon::print(){
@@ -164,10 +132,10 @@ bool Polygon::Int_Ext(vector<double> point){
 	}
 	
 	if (cpt%2 != 0){
-		cout << "Le point est à l'interieur du polygone'" << endl;
+		cout << "Le point est a l'interieur du polygone" << endl;
 		return true;                 
 	}else{
-		cout << "Le point est à l'exterieur du polygone'" << endl;
+		cout << "Le point est a l'exterieur du polygone" << endl;
 		return false;                
 	}
 }
