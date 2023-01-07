@@ -7,35 +7,9 @@
 #include "utilities.h"
 using namespace std;
 
-class Polygon {
-private:
-    int n;
-    vector<double> X;
-    vector<double> Y;
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-public:
-    // Constructeur
-    Polygon(int n, vector<double>X, vector<double> Y) {
-    	n=n;
-    	X=X;
-    	Y=Y;
-	}
-	// Constructeur sans arguments avec n=0
-	Polygon() {n=0;}
-
-	
-    // Accesseurs
-    int getN() const { return n; }
-    vector<double> getX() const { return X; }
-    vector<double> getY() const { return Y; }
-
-    // Mutateurs
-    void setN(int n) { this->n = n; }
-    void setX(vector<double> X) { this->X = X; }
-    void setY(vector<double> Y) { this->Y = Y; }
-    
-	//Load
-    vector <vector<double>> load(string route){
+vector <vector<double>> load(string route){
 	int n; 
 	fstream F;
 	F.open(route);
@@ -59,41 +33,23 @@ public:
 	return P;
 }
 
-//Clean
-vector<vector<double>> clean() {
-  vector<double> m(this->X.size()-1);
-  for(int i = 1; i<this->X.size();i++){
-    m[i-1] = (this->X[i]-this->X[i-1])/(this->Y[i]-this->Y[i-1]);
-  }
-  m.push_back(m[0]);
-  vector<double> X, Y;
-  for (int i=1;i<m.size();i++){
-    if(m[i]!=m[i-1]){
-      X.push_back(this->X[i]);
-      Y.push_back(this->Y[i]);
-    }   
-  }
-  X.push_back(X[0]);
-  Y.push_back(Y[0]);
-  vector<vector<double>> PN;
-  PN.push_back(X);
-  PN.push_back(Y);
-  return PN;
-}
-
-/*
 vector<vector<double>> clean(vector<vector<double>> P){
+		//secondToLast = myVector[myVector.size() - 2];
 		vector<double> m(P[0].size()-1);
+
 		for(int i = 1; i<P[0].size();i++){
-			m[i-1] = (P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
+			m[i-1]=(P[0][i]-P[0][i-1])/(P[1][i]-P[1][i-1]);
 		}
+		
 		m.push_back(m[0]);
 		vector<double> X, Y;
+
 		for (int i=1;i<m.size();i++){
 			if(m[i]!=m[i-1]){
 				X.push_back(P[0][i]);
 				Y.push_back(P[1][i]);
-			}	
+			}
+			
 		}
 		X.push_back(X[0]);
 		Y.push_back(Y[0]);
@@ -102,8 +58,7 @@ vector<vector<double>> clean(vector<vector<double>> P){
 		PN.push_back(Y);
 	return PN;
 }
-*/
-//Same
+
 bool same(vector<vector<double>> P,vector<vector<double>> Q){
 	int n=P[0].size()-1;
 	if(P[0].size()!=Q[0].size()){
@@ -132,7 +87,6 @@ bool same(vector<vector<double>> P,vector<vector<double>> Q){
 	cout << "The two polygons are different" << endl;
 	return false;		
 }
-//perimetre
 
 double perimeter(vector<vector<double>> P){
 	double per = 0.0;
@@ -142,16 +96,6 @@ double perimeter(vector<vector<double>> P){
 	cout << "Le perimetere du polygone est: " << per <<endl;
 	return per;
 }
-/*
-double perimeter() {
-    double per = 0.0;
-    for (int i = 1; i<this->X.size(); i++){
-        per += pow( pow(this->X[i]-this->X[i-1], 2) + pow(this->Y[i]-this->Y[i-1], 2) , 0.5);
-    } 
-    cout << "Le perimetere du polygone est: " << per <<endl;
-    return per;
-}
-*/
 
 //print 
 void print(vector<vector<double>> P){
@@ -160,31 +104,31 @@ void print(vector<vector<double>> P){
 	}
 }
 
-	//verifier si un point est l'intérieur d'un polygone 
-	//Int_ext
-	bool Int_Ext(vector<vector<double>> P, vector<double> point){
-		int n=P[0].size()-1;
-		double maxY = P[1][0];
-		for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);	
-		double x = point[0];
-		double y;
-		int cpt=0;
-		for(int i = 1; i<P[0].size();i++){
-			double m = (P[1][i]-P[1][i-1])/(P[0][i]-P[0][i-1]);	
-			
-			y = m*(x-P[0][i]) + P[1][i];
-	
-			if ((x-P[0][i])*(x-P[0][i-1])<0 && (y-point[1])*(y-maxY-1)<0) cpt += 1;	
-		}
+//verifier si un point est l'intérieur d'un polygone 
+bool Int_Ext(vector<vector<double>> P, vector<double> point){
+	int n=P[0].size()-1;
+	double maxY = P[1][0]; for (int i = 1; i < n; i++) maxY = Max(maxY,P[1][i]);
 		
-		if (cpt%2 != 0){
-			cout << "Le point est à l'interieur du polygone'" << endl;
-			return true;                 
-		}else{
-			cout << "Le point est à l'exterieur du polygone'" << endl;
-			return false;                
-		}
+	double x = point[0];
+	double y;
+	int cpt=0;
+	
+	for(int i = 1; i<P[0].size();i++){
+		double m = (P[1][i]-P[1][i-1])/(P[0][i]-P[0][i-1]);	
+		
+		y = m*(x-P[0][i]) + P[1][i];
+
+		if ((x-P[0][i])*(x-P[0][i-1])<0 && (y-point[1])*(y-maxY-1)<0) cpt += 1;	
 	}
+	
+	if (cpt%2 != 0){
+		cout << "The point is Inside of the polygon" << endl;
+		return true;
+	}else{
+		cout << "The point is Outside of the polygon" << endl;
+		return false;
+	}
+}
 
 bool compareFloats(double a, double b){
     if (abs(a - b) < 0.000001) {
@@ -194,7 +138,7 @@ bool compareFloats(double a, double b){
         return false;
     }
 }
-//regular ou pas?
+
 bool regular(vector<vector<double>> P){
 	int n=P[0].size()-1;
 	
@@ -235,7 +179,7 @@ bool regular(vector<vector<double>> P){
 	return true;
 }
 
-//CrossProduct
+
 int CrossProduct(int ax, int ay, int bx, int by, int cx, int cy){
 	  int Xab = ax - bx;
       int Yab = ay - by;
@@ -271,18 +215,19 @@ bool isConvex(vector <vector<double>> P){
 	if (cp<0) neg=true;	
 	else if (cp>0) pos=true;
 	if (neg&&pos)  {
-		cout << "Le Polygone n'est pas convexe"<<endl;
+		cout << "Polygone non convexe"<<endl;
 		return false;
 	}
 }	
-	cout <<"Le polygone est convexe" <<endl;
+	cout <<"Polygone convexe" <<endl;
 	return true;
+	
 }
-//isSimple
+
 bool isSimple(vector <vector<double>> P){
 	bool intersection;
 	int n=P[0].size()-1;
-	//cout <<"n"<< n << endl;
+	cout <<"n"<< n << endl;
 	  if (n < 3) {
     cout << "Le polygone n'a pas assez de points pour être considéré comme un polygone" << endl;
     return false;
@@ -306,7 +251,7 @@ else
 	cout << "Le polygone n'est pas simple" <<endl;
 return intersection;
 }
-//Area
+  
 double Area(vector <vector<double>> P){
 	double area;
 	int n=P[0].size()-1;
@@ -323,73 +268,42 @@ double Area(vector <vector<double>> P){
 	cout <<"area =" << area<< endl; 
 	return (area);
 }
-    
-};
-/*
 
-int main(){
-	Polygon polygon;
-	vector <vector<double>> P= polygon.load("Rectangulo.txt");
-	vector<double>X;
-	vector<double>Y;
-	int n=P[0].size()-1;
-	X.resize(n);
-	Y.resize(n);
-	polygon.setN(n);
-	polygon.setX(X);
-	polygon.setY(Y);
-	for (int i=0;i<n;i++){
-		X[i] = P[0][i];
-		Y[i] = P[1][i];	
-	}
-	polygon.clean();
-	double per = polygon.perimeter(P);
-	vector<vector<double>> Q = P;
-	bool isSame = polygon.same(P, Q);
-	vector<double> point(2);
-	point[0]=2.3;
-	point[1]=2.3;
-	bool isInt = polygon.Int_Ext(P,point);
-	double area = polygon.Area(P);
-	bool isSimple=polygon.isSimple(P);
-	bool isConvex=polygon.isConvex(P);
-
-
-/*
-// Afficher les abcisses
-for (auto x : X) {
-    std::cout << x << " ";
-std::cout << std::endl;
-} */
-
-/*
-int main(){
-	Polygon polygon;
-	vector <vector<double>> P= polygon.load("Rectangulo.txt");
-	vector<double>X;
-	vector<double>Y;
-	int n=P[0].size()-1;
-	X.resize(n);
-	Y.resize(n);
-	polygon.setN(n);
-	polygon.setX(X);
-	polygon.setY(Y);
-	for (int i=0;i<n;i++){
-		X[i] = P[0][i];
-		Y[i] = P[1][i];	
-	}
-	polygon.clean();
-	double per = polygon.perimeter(P);
-	vector<vector<double>> Q = P;
-	bool isSame = polygon.same(P, Q);
-	vector<double> point(2);
-	point[0]=2.3;
-	point[1]=2.3;
-	bool isInt = polygon.Int_Ext(P,point);
-	double area = polygon.Area(P);
-	bool isSimple=polygon.isSimple(P);
-	bool isConvex=polygon.isConvex(P); }
-	*/
-
-
-
+int main() {
+	vector <vector<double>> P;   
+	P = load("NonSimple.txt");
+	
+	cout << "Original polygon loaded" << endl;
+	print(P);
+	vector <vector<double>> Q=P;
+	P=clean(P);
+	cout << "Polygon after cleaning" << endl;
+	print(P);
+	
+	Q[0][0]=9;
+	cout << "Polygon for comparing" << endl;
+	print(Q);
+	same(P,Q);
+	
+	perimeter(P);
+	
+	regular(P);
+	
+	
+	vector<double> punt (2);
+	punt[0]=2.3;
+	punt[1]=2.3;
+	Int_Ext(P,punt);
+	
+	isSimple(P);
+	
+	/* Un polygone est simple si l'intersection de deux côtés non adjacents est vide. Par définition, l'intersection 
+	est réduite à un point pour deux côtés adjacents. Dans le cas des polygones simples, on distingue
+	facilement un intérieur et un extérieur. */
+	
+	isConvex(P);
+	
+	Area(P);
+	
+	return 0;
+}
