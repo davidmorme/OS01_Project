@@ -16,12 +16,12 @@ private:
 public:
     // Constructeur
     Polygon(int n, vector<double>X, vector<double> Y) {
-    	n=n;
-    	X=X;
-    	Y=Y;
+    	this->n=n;
+    	this->X=X;
+    	this->Y=Y;
 	}
 	// Constructeur sans arguments avec n=0
-	Polygon() {n=0;}
+	Polygon() {n=0;};
 
 	
     // Accesseurs
@@ -357,10 +357,12 @@ int main(){
 
 
 // Afficher les abcisses
+/*
 for (auto x : X) {
     std::cout << x << " ";
 std::cout << std::endl;
-} */
+}  
+*/
 
 
 

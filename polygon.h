@@ -1,6 +1,5 @@
-#ifndef POLYGON_H
-#define POLYGON_H
 
+#include "polygon.cpp"
 #include <vector>
 #include <string>
 using namespace std;
@@ -52,4 +51,4 @@ public:
     bool isConvex(vector<vector<double>> P);
 };
 
-#endif
+

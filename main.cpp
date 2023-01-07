@@ -11,6 +11,7 @@ using namespace std;
 	
 int main(){
 	Polygon polygon;
+	
 	vector <vector<double>> P= polygon.load("Rectangulo.txt");
 	vector<double>X;
 	vector<double>Y;
@@ -35,4 +36,4 @@ int main(){
 	double area = polygon.Area(P);
 	bool isSimple=polygon.isSimple(P);
 	bool isConvex=polygon.isConvex(P);
-}  
+} 
