@@ -54,4 +54,3 @@ public:
     bool regular();
 };
 bool same(Polygon &p_1,Polygon &p_2);
-#endif
